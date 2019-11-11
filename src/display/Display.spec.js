@@ -1,8 +1,43 @@
 import React from "react";
-import {render} from "@testing-library/react"
+import { render } from "@testing-library/react";
 
 import Display from "./Display";
 
 test("Display renders properly", () => {
-	render(<Display />)
-})
+  render(<Display />);
+});
+
+// displays if gate is open/closed and if it is locked/unlocked
+// displays 'Closed' if the closed prop is true and 'Open' if otherwise
+test("Closed if $closed == true", () => {
+  let trueTog = true;
+  const { getByText } = render(<Display closed={trueTog} />);
+  expect(getByText(/closed/i));
+
+  // let { getByText } = render(<Display closed={false} />);
+  // trueTog = !trueTog;
+  // expect(getByText(/open/i));
+});
+
+test("Open if $closed == false", () => {
+  let { getByText } = render(<Display closed={false} />);
+  expect(getByText(/open/i));
+});
+
+// displays 'Locked' if the locked prop is true and 'Unlocked' if otherwise
+test("Locked if $locked == true", () => {
+  let { getByText } = render(<Display locked={true} />);
+  expect(getByText(/locked/i));
+});
+test("UN-locked if $locked == false", () => {
+  let { getByText } = render(<Display locked={false} />);
+  expect(getByText(/unlocked/i));
+});
+
+// when locked or closed use the red-led class
+test("red-led class if $locked == true", () => {
+  let { getByText } = render(<Display closed={true} />);
+  expect(getByText.firstChild.classList.contains("red-led"));
+});
+
+// when unlocked or open use the green-led class
