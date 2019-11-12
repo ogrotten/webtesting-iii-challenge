@@ -8,6 +8,13 @@ test("Display renders properly", () => {
 });
 
 // displays if gate is open/closed and if it is locked/unlocked
+test("Gate Open if $locked == false", () => {
+  let { getByText } = render(<Display locked={false} closed={false} />);
+  expect(getByText(/open/i));
+  expect(getByText(/unlocked/i));
+});
+
+
 // displays 'Closed' if the closed prop is true and 'Open' if otherwise
 test("Closed if $closed == true", () => {
   let trueTog = true;
@@ -18,7 +25,6 @@ test("Closed if $closed == true", () => {
   // trueTog = !trueTog;
   // expect(getByText(/open/i));
 });
-
 test("Open if $closed == false", () => {
   let { getByText } = render(<Display closed={false} />);
   expect(getByText(/open/i));
@@ -36,8 +42,24 @@ test("UN-locked if $locked == false", () => {
 
 // when locked or closed use the red-led class
 test("red-led class if $locked == true", () => {
+  let { getByText } = render(<Display locked={true} />);
+	// expect(getByText.firstChild.classList.contains("red-led"));
+	// expect(document.querySelector("led").parentElement.classList.contains("red-led"))
+	expect(document.querySelector("red-led"))
+});
+test("red-led class if $closed == true", () => {
   let { getByText } = render(<Display closed={true} />);
-  expect(getByText.firstChild.classList.contains("red-led"));
+	// expect(getByText.firstChild.classList.contains("red-led"));
+	// expect(document.querySelector("led").parentElement.classList.contains("red-led"))
+	expect(document.querySelector("red-led"))
 });
 
 // when unlocked or open use the green-led class
+test("green-led class if $locked == false", () => {
+	let { getByText } = render(<Display locked={false} />);
+	expect(document.querySelector("green-led"))
+});
+test("green-led class if $closed == false", () => {
+	let { getByText } = render(<Display closed={false} />);
+	expect(document.querySelector("green-led"))
+});
